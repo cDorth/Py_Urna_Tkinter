@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox, Toplevel, Text, Scrollbar # Adicionado Toplevel, Text, Scrollbar
+from tkinter import messagebox, Toplevel, Text, Scrollbar 
 from tkinter import font as tkFont
-import os # Para obter o diretório do script
+import os 
 
-# --- Lógica Original (mantida) ---
+
 candidatos = [
     {"candidato": "João Silva", "partido": "Partido do Futuro"},
     {"candidato": "Maria Oliveira", "partido": "União Nacional"},
@@ -12,9 +12,7 @@ candidatos = [
     {"candidato": "Pedro Rocha", "partido": "Democracia Real"}
 ]
 votacoes = {}
-# --- Fim da Lógica Original ---
 
-# --- Funções Auxiliares ---
 def centralizar_janela(janela, largura, altura):
     """Centraliza uma janela (Tk ou Toplevel) na tela."""
     largura_tela = janela.winfo_screenwidth()
@@ -46,11 +44,11 @@ def determinar_vencedor(votos_dict):
 
 # --- Funções de Interface ---
 def registrar_voto():
-    # (Função registrar_voto permanece igual à versão anterior)
+
     try:
         escolha_idx = voto_var.get()
         if escolha_idx == 0:
-            messagebox.showwarning("Seleção Inválida", "Por favor, selecione um candidato para votar.", parent=root) # Adicionado parent
+            messagebox.showwarning("Seleção Inválida", "Por favor, selecione um candidato para votar.", parent=root) 
             return
 
         indice_lista = escolha_idx - 1
@@ -62,7 +60,7 @@ def registrar_voto():
             confirmar = messagebox.askyesno(
                 "Confirmar Voto",
                 f"Você confirma o voto em:\n\nCandidato: {nome_candidato}\nPartido: {partido_candidato}?",
-                parent=root # Adicionado parent
+                parent=root 
             )
 
             if confirmar:
@@ -72,15 +70,15 @@ def registrar_voto():
             else:
                 status_label.config(text="Votação cancelada pelo usuário.", fg="orange")
         else:
-             messagebox.showerror("Erro Inesperado", "Candidato selecionado inválido.", parent=root) # Adicionado parent
+             messagebox.showerror("Erro Inesperado", "Candidato selecionado inválido.", parent=root) 
              status_label.config(text="Erro: Candidato inválido.", fg="red")
     except Exception as e:
-        messagebox.showerror("Erro", f"Ocorreu um erro: {e}", parent=root) # Adicionado parent
+        messagebox.showerror("Erro", f"Ocorreu um erro: {e}", parent=root) 
         status_label.config(text="Ocorreu um erro ao processar o voto.", fg="red")
 
 def exportar_resultados():
     """Gera o arquivo Candidatos.txt com a lista e o resultado."""
-    script_dir = os.path.dirname(os.path.abspath(__file__)) # Diretório do script
+    script_dir = os.path.dirname(os.path.abspath(__file__)) 
     filepath = os.path.join(script_dir, "Candidatos.txt")
 
     try:
@@ -98,12 +96,12 @@ def exportar_resultados():
                      f.write(f"{candidato}: {votos} voto(s)\n")
 
                 # Determina e escreve o vencedor/empate
-                mensagem_vencedor, _ = determinar_vencedor(votacoes) # Ignora a lista aqui
+                mensagem_vencedor, _ = determinar_vencedor(votacoes) 
                 f.write(f"\n{mensagem_vencedor}\n")
 
-        messagebox.showinfo("Exportação Concluída", f"Resultados exportados com sucesso para:\n{filepath}", parent=resultados_window) # parent=resultados_window
+        messagebox.showinfo("Exportação Concluída", f"Resultados exportados com sucesso para:\n{filepath}", parent=resultados_window) 
     except Exception as e:
-        messagebox.showerror("Erro de Exportação", f"Não foi possível salvar o arquivo:\n{e}", parent=resultados_window) # parent=resultados_window
+        messagebox.showerror("Erro de Exportação", f"Não foi possível salvar o arquivo:\n{e}", parent=resultados_window) 
 
 # Variável global para a janela de resultados, para referência no messagebox da exportação
 resultados_window = None
@@ -129,7 +127,7 @@ def mostrar_resultados():
         altura_res = 400
         centralizar_janela(resultados_window, largura_res, altura_res)
 
-        # --- Conteúdo da Janela de Resultados ---
+
         frame_res = tk.Frame(resultados_window, bg="#F0F0F0", padx=15, pady=15)
         frame_res.pack(expand=True, fill="both")
 
@@ -145,7 +143,7 @@ def mostrar_resultados():
 
         resultado_text_widget = Text(text_frame, wrap="word", font=default_font,
                                      yscrollcommand=scrollbar.set, bd=1, relief=tk.SUNKEN,
-                                     padx=5, pady=5, height=10) # Ajuste altura conforme necessário
+                                     padx=5, pady=5, height=10) 
         resultado_text_widget.pack(side=tk.LEFT, fill="both", expand=True)
         scrollbar.config(command=resultado_text_widget.yview)
 
@@ -154,7 +152,7 @@ def mostrar_resultados():
         for candidato, votos in sorted(votacoes.items()):
             resultado_text_widget.insert(tk.END, f"  {candidato}: {votos} voto(s)\n")
 
-        resultado_text_widget.insert(tk.END, "\n" + ("-"*40) + "\n\n") # Separador
+        resultado_text_widget.insert(tk.END, "\n" + ("-"*40) + "\n\n") 
 
         # Adiciona o vencedor
         mensagem_vencedor, _ = determinar_vencedor(votacoes)
@@ -203,16 +201,16 @@ window_width = 550
 window_height = 450
 centralizar_janela(root, window_width, window_height)
 
-# Configuração das Fontes (sem alterações)
+# Configuração das Fontes 
 default_font = tkFont.nametofont("TkDefaultFont")
 default_font.configure(size=11)
 bold_font = tkFont.Font(family=default_font["family"], size=12, weight="bold")
 title_font = tkFont.Font(family=default_font["family"], size=14, weight="bold")
 
-# Variável de controle (sem alterações)
+# Variável de controle 
 voto_var = tk.IntVar(value=0)
 
-# --- Layout Principal (sem alterações significativas na estrutura) ---
+
 main_content_frame = tk.Frame(root, bg="#ECECEC")
 main_content_frame.pack(expand=True, fill="both", padx=20, pady=10)
 
